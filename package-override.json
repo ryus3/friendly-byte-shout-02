@@ -1,0 +1,11 @@
+{
+  "name": "inventory-management-system",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx vite --host :: --port 8080 --cors",
+    "build": "npx vite build",
+    "preview": "npx vite preview"
+  }
+}

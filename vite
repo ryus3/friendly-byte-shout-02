@@ -1,0 +1,7 @@
+#!/bin/bash
+if command -v npx &> /dev/null; then
+    exec npx vite "$@"
+else
+    echo "Error: npx not found"
+    exit 1
+fi

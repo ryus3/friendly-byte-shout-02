@@ -1,0 +1,340 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 40% 98%;
+    --foreground: 224 71% 4%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71% 4%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 220 14% 94%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 220 14% 92%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.75rem;
+    
+    /* Font scaling for display settings */
+    --font-scale: 1;
+    
+    /* Role Colors - Professional Design */
+    --role-super-admin: 280 100% 70%;      /* بنفسجي للمدير العام */
+    --role-department-manager: 220 100% 60%; /* أزرق لمدير القسم */
+    --role-sales-employee: 142 69% 58%;     /* أخضر لموظف المبيعات */
+    --role-warehouse-employee: 24 95% 53%;  /* برتقالي لموظف المستودع */
+    --role-accountant: 45 93% 47%;          /* أصفر للمحاسب */
+    --role-pending: 0 0% 60%;               /* رمادي للمعلق */
+    
+    /* Order status colors - Professional and elegant like role colors */
+    --status-pending-start: 45 93 47;        /* Beautiful amber like accountant */
+    --status-pending-end: 45 93 47;
+    --status-pending-border: 45 93 47;
+    --status-pending-shadow: 45 93 47;
+    
+    --status-shipped-start: 260 84 47;        /* بنفسجي خفيف */
+    --status-shipped-end: 280 87 47;          /* بنفسجي متوسط */
+    --status-shipped-border: 270 85 47;
+    --status-shipped-shadow: 270 85 47;
+    
+    --status-delivery-start: 199 89 48;       /* سماوي فاتح */
+    --status-delivery-end: 217 91 60;         /* سماوي ناعم */
+    --status-delivery-border: 208 90 54;
+    --status-delivery-shadow: 208 90 54;
+    
+    --status-delivered-start: 142 69 58;     /* Green like sales employee */
+    --status-delivered-end: 142 69 58;
+    --status-delivered-border: 142 69 58;
+    --status-delivered-shadow: 142 69 58;
+    
+    --status-completed-start: 120 100 35;    /* Rich green */
+    --status-completed-end: 120 100 35;
+    --status-completed-border: 120 100 35;
+    --status-completed-shadow: 120 100 35;
+    
+    --status-returned-start: 0 84 60;        /* Red for returned */
+    --status-returned-end: 0 84 60;
+    --status-returned-border: 0 84 60;
+    --status-returned-shadow: 0 84 60;
+    
+    --status-returned-stock-start: 0 0 60;        /* Gray like out of stock */
+    --status-returned-stock-end: 0 0 60;
+    --status-returned-stock-border: 0 0 60;
+    --status-returned-stock-shadow: 0 0 60;
+    
+    --status-cancelled-start: 0 0 60;        /* Gray for cancelled */
+    --status-cancelled-end: 0 0 60;
+    --status-cancelled-border: 0 0 60;
+    --status-cancelled-shadow: 0 0 60;
+    
+    /* Notification Colors - Professional Design */
+    --notification-info: 217 91% 60%;    /* أزرق للمعلومات */
+    --notification-success: 142 76% 36%; /* أخضر للنجاح */
+    --notification-warning: 45 93% 47%;  /* أصفر للتحذير */
+    --notification-error: 0 84% 60%;     /* أحمر للخطأ */
+    --notification-stock: 24 95% 53%;    /* برتقالي للمخزون */
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--muted)));
+  }
+ 
+  .dark {
+    --background: 224 71% 4%;
+    --foreground: 210 40% 98%;
+    --card: 224 71% 8%;
+    --card-foreground: 210 40% 98%;
+    --popover: 224 71% 4%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 22.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body, html {
+    @apply bg-background text-foreground;
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    height: 100dvh;
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
+    font-size: calc(1rem * var(--font-scale));
+    transition: all 0.3s ease;
+  }
+  .font-brand {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .glass-effect {
+    @apply backdrop-blur-lg bg-card/90 dark:bg-card/80 border border-border/50 dark:border-border/60 shadow-lg;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent;
+  }
+  
+  .gradient-primary {
+    @apply bg-gradient-to-r from-primary to-primary/80 text-primary-foreground;
+  }
+  
+  .gradient-secondary {
+    @apply bg-gradient-to-r from-secondary to-muted text-secondary-foreground;
+  }
+
+  .product-card {
+    @apply relative overflow-hidden rounded-xl bg-card border border-border/20 shadow-lg transition-all duration-300;
+  }
+  .product-card:hover {
+     @apply shadow-2xl shadow-primary/10 border-primary/30;
+  }
+  .dark .product-card:hover {
+    box-shadow: 0 0 25px 5px hsl(var(--primary) / 0.2);
+  }
+
+  .product-list-item {
+    @apply flex items-center gap-4 p-3 bg-card rounded-lg border border-border/20 shadow-sm transition-all duration-300 cursor-pointer;
+  }
+
+  .product-list-item:hover {
+    @apply shadow-lg shadow-primary/10 border-primary/40;
+  }
+   .dark .product-list-item:hover {
+    box-shadow: 0 0 15px 3px hsl(var(--primary) / 0.1);
+  }
+
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 hover:bg-accent cursor-pointer;
+  }
+
+  .sidebar-item.active {
+    @apply bg-gradient-to-r from-primary/20 to-primary/5 border-r-4 border-primary text-primary font-semibold;
+  }
+
+  .stock-progress {
+    @apply w-full bg-muted rounded-full h-1.5;
+  }
+
+  .stock-progress-bar {
+    @apply h-1.5 rounded-full transition-all duration-500;
+  }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Content density styles */
+.compact {
+  --spacing-scale: 0.75;
+}
+
+.compact .space-y-2 > * + * {
+  margin-top: calc(0.5rem * var(--spacing-scale));
+}
+
+.compact .space-y-4 > * + * {
+  margin-top: calc(1rem * var(--spacing-scale));
+}
+
+.compact .p-4 {
+  padding: calc(1rem * var(--spacing-scale));
+}
+
+.spacious {
+  --spacing-scale: 1.5;
+}
+
+.spacious .space-y-2 > * + * {
+  margin-top: calc(0.5rem * var(--spacing-scale));
+}
+
+.spacious .space-y-4 > * + * {
+  margin-top: calc(1rem * var(--spacing-scale));
+}
+
+.spacious .p-4 {
+  padding: calc(1rem * var(--spacing-scale));
+}
+
+/* High contrast mode */
+.high-contrast {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --card: 0 0% 10%;
+  --border: 0 0% 30%;
+  --primary: 210 100% 60%;
+}
+
+.high-contrast .dark {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --card: 0 0% 95%;
+  --border: 0 0% 70%;
+}
+
+/* Reduced motion */
+.reduce-motion * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Hide header when needed */
+.hide-header header,
+.hide-header .header {
+  display: none !important;
+}
+
+/* Layout patterns */
+[data-layout="cards"] .grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 1rem !important;
+}
+
+[data-layout="list"] .grid {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+}
+
+[data-layout="grid"] .grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 0.75rem !important;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  body {
+    font-size: calc(0.9rem * var(--font-scale));
+  }
+  
+  /* تحسين نوافذ الحوار للهاتف */
+  [data-radix-dialog-content] {
+    width: 95vw !important;
+    max-width: 95vw !important;
+    height: 90vh !important;
+    max-height: 90vh !important;
+    margin: 0 !important;
+  }
+  
+  /* تحسين ScrollArea للهاتف */
+  [data-radix-scroll-area-viewport] {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  [data-radix-scroll-area-viewport]::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* تحسين Dropdown للهاتف */
+  [data-radix-dropdown-menu-content] {
+    z-index: 9999 !important;
+    background: hsl(var(--background)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+    min-width: 200px !important;
+  }
+  
+  /* تحسين Accordion للهاتف */
+  [data-radix-accordion-content] {
+    overflow: visible !important;
+  }
+  
+  /* تحسين الأزرار للهاتف */
+  .mobile-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    min-height: 44px; /* معيار Apple للمس */
+  }
+  
+  /* تحسين النصوص للقراءة */
+  .mobile-text {
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+  
+  /* تحسين الكروت للهاتف */
+  .mobile-card {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+}
