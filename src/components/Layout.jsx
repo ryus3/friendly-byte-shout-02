@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/UnifiedAuthContext';
+import { apiService } from '@/services/api';
 import { usePermissions } from '@/hooks/usePermissions';
 import { useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -295,19 +296,15 @@ const Layout = ({ children }) => {
                      // إظهار إشعار فوري بدء التحديث
                      toast({ 
                        title: "🔄 جاري التحديث...", 
-                       description: "يتم تحديث الطلبات والبيانات الجديدة (المخزون محفوظ)",
+                       description: "يتم تحديث البيانات...",
                        className: "z-[9999] text-right",
                      });
 
-                     // استدعاء تحديث واحد فقط بدلاً من multiple events
-                     if (window.refreshInventory) {
-                       await window.refreshInventory();
-                     }
-
-                     // تحديث الإشعارات أيضاً
-                     window.dispatchEvent(new CustomEvent('refresh-notifications'));
+                     // تحديث الكاش المركزي
+                     await apiService.invalidateCache(/.*$/);
                      
-                     await new Promise(resolve => setTimeout(resolve, 800));
+                     // تحديث الإشعارات
+                     window.dispatchEvent(new CustomEvent('refresh-notifications'));
                      
                      toast({ 
                        title: "✅ تم التحديث بنجاح!", 
