@@ -9,6 +9,8 @@ import { usePermissions } from '@/hooks/usePermissions';
 import { useInventory } from '@/contexts/InventoryContext';
 import { useProfits } from '@/contexts/ProfitsContext';
 import { useUnifiedProfits } from '@/hooks/useUnifiedProfits';
+import { useUnifiedFinancialSystem } from '@/hooks/useUnifiedFinancialSystem';
+import UnifiedFinancialDisplay from '@/components/shared/UnifiedFinancialDisplay';
 
 import { UserPlus, TrendingUp, DollarSign, PackageCheck, ShoppingCart, Users, Package, MapPin, User as UserIcon, Bot, Briefcase, TrendingDown, Hourglass, CheckCircle } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
@@ -109,6 +111,9 @@ const Dashboard = () => {
 
     // الآن يمكن استخدام periods بأمان
     const { profitData: unifiedProfitData, loading: unifiedProfitLoading, error: unifiedProfitError } = useUnifiedProfits(periods.netProfit);
+    
+    // استخدام النظام المالي الموحد الجديد
+    const financialSystem = useUnifiedFinancialSystem();
     
     // إضافة لوج لتتبع البيانات
     useEffect(() => {
@@ -610,6 +615,33 @@ const Dashboard = () => {
                         onSettle={() => navigate('/profits-summary')} 
                     />
                 )}
+                {/* النظام المالي الموحد الجديد */}
+                {!financialSystem.loading && canViewAllData && (
+                  <div className="mb-8">
+                    <h2 className="text-2xl font-bold mb-4 text-primary">الوضع المالي الموحد</h2>
+                    <UnifiedFinancialDisplay
+                      financialData={financialSystem}
+                      mode="dashboard"
+                      onCardClick={(cardType) => {
+                        switch(cardType) {
+                          case 'capital':
+                          case 'cash':
+                          case 'inventory':
+                          case 'expenses':
+                            navigate('/accounting');
+                            break;
+                          case 'netProfit':
+                          case 'systemProfit':
+                            navigate('/advanced-profits-analysis');
+                            break;
+                          default:
+                            break;
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+                
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                     {allStatCards.slice(0, 8).map((stat, index) => (
                          <motion.div key={stat.key} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }}>

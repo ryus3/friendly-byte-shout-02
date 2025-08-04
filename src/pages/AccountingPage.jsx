@@ -5,6 +5,7 @@ import { useInventory } from '@/contexts/InventoryContext';
 import { useAuth } from '@/contexts/UnifiedAuthContext';
 import { usePermissions } from '@/hooks/usePermissions';
 import { useCashSources } from '@/hooks/useCashSources';
+import { useUnifiedFinancialSystem } from '@/hooks/useUnifiedFinancialSystem';
 import { supabase } from '@/lib/customSupabaseClient';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -32,6 +33,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import ManagerProfitsCard from '@/components/shared/ManagerProfitsCard';
 import EnhancedFinancialSummary from '@/components/shared/EnhancedFinancialSummary';
 import FinancialPerformanceCard from '@/components/shared/FinancialPerformanceCard';
+import UnifiedFinancialDisplay from '@/components/shared/UnifiedFinancialDisplay';
 
 const formatCurrency = (amount) => {
   return new Intl.NumberFormat('ar-IQ', {
@@ -145,6 +147,9 @@ const AccountingPage = () => {
     const { getTotalSourcesBalance, getMainCashBalance, getTotalAllSourcesBalance, cashSources } = useCashSources();
     const navigate = useNavigate();
     
+    // استخدام النظام المالي الموحد الجديد
+    const financialSystem = useUnifiedFinancialSystem();
+    
     // فلترة حسب الفترة المحددة - افتراضي "كل الفترات" 
     const [selectedTimePeriod, setSelectedTimePeriod] = useLocalStorage('accounting-time-period', 'all');
     const [dateRange, setDateRange] = useLocalStorage('accounting-date-range', {
@@ -173,6 +178,8 @@ const AccountingPage = () => {
     const { profitData: unifiedProfitData, loading: unifiedLoading } = useUnifiedProfits(selectedTimePeriod);
     console.log('🔥 البيانات المالية الموحدة:', unifiedProfitData);
     console.log('🔍 فترة مختارة:', selectedTimePeriod);
+    
+    console.log('💰 النظام المالي الموحد الجديد:', financialSystem);
     
     // استخدام البيانات الموحدة لجميع الحسابات
     
