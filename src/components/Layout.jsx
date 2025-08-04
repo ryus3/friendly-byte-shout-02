@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/UnifiedAuthContext';
-import { apiService } from '@/services/api';
 import { usePermissions } from '@/hooks/usePermissions';
 import { useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -39,7 +38,6 @@ const SidebarContent = ({ onClose, isMobile }) => {
     { path: '/manage-products', icon: PackagePlus, label: 'ادارة المنتجات', roles: ['super_admin', 'admin', 'department_manager'], color: 'text-cyan-500' },
     { path: '/customers-management', icon: Heart, label: 'إدارة العملاء', roles: ['super_admin', 'admin', 'department_manager'], requiresCustomerAccess: true, color: 'text-rose-500' },
     { path: '/inventory', icon: Warehouse, label: 'الجرد التفصيلي', roles: ['super_admin', 'admin', 'department_manager', 'sales_employee', 'warehouse_employee'], color: 'text-pink-500' },
-    { path: '/experimental', icon: RefreshCw, label: 'تجريبي', roles: ['super_admin', 'admin', 'department_manager', 'sales_employee', 'warehouse_employee', 'cashier'], color: 'text-gray-400' },
     { path: '/purchases', icon: TrendingUp, label: 'المشتريات', roles: ['super_admin', 'admin', 'department_manager'], color: 'text-emerald-500' },
     { path: '/accounting', icon: DollarSign, label: 'المركز المالي', roles: ['super_admin', 'admin'], color: 'text-indigo-500' },
     { path: '/notifications', icon: Bell, label: 'الإشعارات', roles: ['super_admin', 'admin', 'department_manager', 'sales_employee', 'warehouse_employee', 'cashier'], color: 'text-red-500' },
@@ -296,15 +294,19 @@ const Layout = ({ children }) => {
                      // إظهار إشعار فوري بدء التحديث
                      toast({ 
                        title: "🔄 جاري التحديث...", 
-                       description: "يتم تحديث البيانات...",
+                       description: "يتم تحديث الطلبات والبيانات الجديدة (المخزون محفوظ)",
                        className: "z-[9999] text-right",
                      });
 
-                     // تحديث الكاش المركزي
-                     await apiService.invalidateCache(/.*$/);
-                     
-                     // تحديث الإشعارات
+                     // استدعاء تحديث واحد فقط بدلاً من multiple events
+                     if (window.refreshInventory) {
+                       await window.refreshInventory();
+                     }
+
+                     // تحديث الإشعارات أيضاً
                      window.dispatchEvent(new CustomEvent('refresh-notifications'));
+                     
+                     await new Promise(resolve => setTimeout(resolve, 800));
                      
                      toast({ 
                        title: "✅ تم التحديث بنجاح!", 
